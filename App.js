@@ -53,6 +53,10 @@ export default createAppContainer(createBottomTabNavigator(
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: '#000',
+      },
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
@@ -75,8 +79,11 @@ export default createAppContainer(createBottomTabNavigator(
       },
     }),
     tabBarOptions: {
-      activeTintColor: 'tomato',
-      inactiveTintColor: 'gray',
+      activeTintColor: 'red',
+      inactiveTintColor: 'white',
+      style: {
+        backgroundColor: "#4A4A4A"
+      },
     },
   }
 ));
