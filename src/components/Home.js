@@ -1,13 +1,48 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Image, Button, ImageBackground, StatusBar,ScrollView} from 'react-native';
+import {Platform, ActivityIndicator, StyleSheet, Text, View, Image, Button, ImageBackground, StatusBar,ScrollView} from 'react-native';
 import LogoTitle from './LogoTitle';
 import ArtistItem from './ArtistItem';
 import Carousel from 'react-native-carousel';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 
 export default class Home extends Component {
   
+  constructor(props){
+    super(props);
+    this.state ={ isLoading: true}
+  }
+
+   componentDidMount(){
+    return fetch('http://clu3io.com/php/mobileApi.php', {  
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            api: 'getArtists',
+            secondParam: 'yourOtherValue',
+          })
+        })
+      .then((response) => response.json())
+      .then((responseJson) => {
+
+        this.setState({
+          isLoading: false,
+          dataSource: responseJson,
+        }, function(){
+            //console.error(responseJson);
+        });
+
+      })
+      .catch((error) =>{
+        this.setState({isLoading: false});
+        console.error(error);
+      });
+  }
+
   static navigationOptions = {
     // headerTitle instead of title
     headerTitle: <LogoTitle />,
@@ -17,12 +52,27 @@ export default class Home extends Component {
   };
 
   render() {
+
+    if(this.state.isLoading){
+      return(
+        <ImageBackground  source={require('../images/bg.jpg')} style={styles.containerHome}>
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',}}>
+            <Spinner
+                visible = {true}
+                textContent={'Loading...'}
+                textStyle={{color: '#FFF'}}
+              />
+          </View>
+        </ImageBackground>
+      )
+    }
+
     return (
       
       <ImageBackground  source={require('../images/bg.jpg')} style={styles.containerHome}>
         <ScrollView>
         
-        <StatusBar backgroundColor="blue" barStyle="light-content" />
+        <StatusBar  barStyle="light-content" />
         <View style={styles.mainHome}>
           <Text style={styles.topText}>FIND AND BOOK YOUR DJ</Text>
           <Text style={styles.topHeading}>DJs in Maribor</Text>
