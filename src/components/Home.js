@@ -47,8 +47,7 @@ export default class Home extends Component {
     // headerTitle instead of title
     headerTitle: <LogoTitle />,
     headerTransparent: true,
-    gesturesEnabled: false,
-    headerBackTitle: null
+    headerBackTitle: null,
   };
 
   render() {

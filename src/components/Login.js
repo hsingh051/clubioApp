@@ -9,14 +9,14 @@ import {
 export default class Login extends Component {
 
 	state = {
-	    mobile_no: '',
+	    email: '',
 	    isLoading: false,
 	  }
 
 	handlePress = async () => {
 		this.setState({isLoading:true});
 
-		if(this.state.mobile_no == ''){
+		if(this.state.email == ''){
 	       Alert.alert("Please enter mobile number");
 	    }else{
 	   		fetch('http://dev.01s.in/farm2energytest/public/index.php/api/login', {
@@ -26,7 +26,7 @@ export default class Login extends Component {
 		          'Content-Type': 'application/json',
 		        },
 		        body: JSON.stringify({
-		          mobile_no: this.state.mobile_no,
+		          email: this.state.email,
 		        }),
 		    }).then((response) => response.json())
 		      .then((responseJson) => {
@@ -37,7 +37,7 @@ export default class Login extends Component {
 			        else{
 			        	console.error(responseJson);
 			            Alert.alert("Thanks for Login");
-			            AsyncStorage.setItem('mobile_no', this.state.mobile_no);
+			            AsyncStorage.setItem('email', this.state.email);
 			            //Actions.mapview();
 			        }
 			        return responseJson;
@@ -69,22 +69,21 @@ export default class Login extends Component {
                                 <Text style={styles.title}>LOGO HERE</Text>
                                 
                                 <TextInput style={styles.input}
-                                    placeholder="Enter mobile number"
+                                    placeholder="Enter email address"
                                     placeholderTextColor='rgba(255,255,255,0.8)'
-                                    keyboardType='number-pad'
-                                    returnKeyType='go'
+                                    //returnKeyType='go'
                                     autoCorrect={false}
-                                    onChangeText={mobile_no => this.setState({mobile_no})}
-                                    //onSubmitEditing={()=> this.refs.txtPassword.focus()}
+                                    onChangeText={email => this.setState({email})}
+                                    onSubmitEditing={()=> this.refs.txtPassword.focus()}
                                 />
-                                {/*<TextInput style={styles.input} 
-                                                                    placeholder="Enter password"
-                                                                    placeholderTextColor='rgba(255,255,255,0.8)'
-                                                                    returnKeyType='go'
-                                                                    secureTextEntry
-                                                                    autoCorrect={false}
-                                                                    ref={"txtPassword"}
-                                                                /> */}
+                                <TextInput style={styles.input} 
+                                    placeholder="Enter password"
+                                    placeholderTextColor='rgba(255,255,255,0.8)'
+                                    returnKeyType='go'
+                                    secureTextEntry
+                                    autoCorrect={false}
+                                    ref={"txtPassword"}
+                                /> 
                                 <TouchableOpacity style={styles.buttonContainer} onPress={this.handlePress.bind(this)}>
                                     <Text style={styles.buttonText}>SIGN IN</Text>
                                 </TouchableOpacity>

@@ -8,7 +8,7 @@ export default class Details extends Component {
   static navigationOptions = {
     // headerTitle instead of title
     headerTitle: <LogoTitle />,
-    gesturesEnabled: false,
+    headerRight: <View style={{height: 50, width: 50}}></View>
   };
 
 

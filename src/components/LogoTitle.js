@@ -6,7 +6,7 @@ import {Platform, StyleSheet, Text, View, Image, ImageBackground} from 'react-na
 export default class LogoTitle extends Component {
   render() {
     return (
-          <Image	          
+          <Image style={{width:215, height: 60, flex: 1}} resizeMode="contain" 	          
 	          source={require('../images/logo_top.png')}
 	        />        	
         
