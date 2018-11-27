@@ -23,7 +23,6 @@ export default class Home extends Component {
           },
           body: JSON.stringify({
             api: 'getArtists',
-            secondParam: 'yourOtherValue',
           })
         })
       .then((response) => response.json())
@@ -31,9 +30,10 @@ export default class Home extends Component {
 
         this.setState({
           isLoading: false,
-          dataSource: responseJson,
+          dataSource: responseJson.results,
         }, function(){
-            //console.error(responseJson);
+            //console.error(dataSource);
+            
         });
 
       })
@@ -51,6 +51,7 @@ export default class Home extends Component {
   };
 
   render() {
+    const artistItems = this.state.dataSource;
 
     if(this.state.isLoading){
       return(
@@ -69,32 +70,34 @@ export default class Home extends Component {
     return (
       
       <ImageBackground  source={require('../images/bg.jpg')} style={styles.containerHome}>
-        <ScrollView>
-        
-        <StatusBar  barStyle="light-content" />
-        <View style={styles.mainHome}>
-          <Text style={styles.topText}>FIND AND BOOK YOUR DJ</Text>
-          <Text style={styles.topHeading}>DJs in Maribor</Text>
-          <View style={styles.midLine} />
-          
-          <View style={styles.carouselHome}>
-            <Carousel animate={false} width={375} hideIndicators={true}>
-              <View style={styles.carouselItem}>
-                <ArtistItem name='Artist One' genre='Pop' price='50-200 EUR' imageUrl='https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png'  />
-              </View>
-              <View style={styles.carouselItem}>
-                <ArtistItem name='Artist Two' genre='Pop' price='90-200 EUR' imageUrl='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU6x6tN6Io9c4GrwqBCUcPchKQODOujjQVX0le_8dbdM5TJRMz' />
-              </View>
-              <View style={styles.carouselItem}>
-                <ArtistItem name='Artist Third' genre='Pop' price='50-200 EUR' imageUrl='https://static.thenounproject.com/png/17241-200.png' />
-              </View>
-            </Carousel>
+        <ScrollView>        
+          <StatusBar  barStyle="light-content" />
+          <View style={styles.mainHome}>
+            <Text style={styles.topText}>FIND AND BOOK YOUR DJ</Text>
+            <Text style={styles.topHeading}>DJs in Maribor</Text>
+            <View style={styles.midLine} />
+            
+            <View style={styles.carouselHome}>
+              <Carousel animate={false} width={375} hideIndicators={true}>
+                {
+                    artistItems.map((item, index) =>
+                          <View key={item.id} style={styles.carouselItem}>
+                            <ArtistItem 
+                              name={item.public_name} 
+                              genre={item.genre} 
+                              price='50-200 EUR' 
+                              imageUrl={item.image_url}  
+                            />
+                          </View>
+                    )
+                }
+              </Carousel>
+            </View>
+            <Button
+              title="Go to Details"
+              onPress={() => this.props.navigation.navigate('Details')}
+            />
           </View>
-          <Button
-            title="Go to Details"
-            onPress={() => this.props.navigation.navigate('Details')}
-          />
-        </View>
         
         </ScrollView>
         </ImageBackground>
